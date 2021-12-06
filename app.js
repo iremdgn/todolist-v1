@@ -5,6 +5,7 @@ const app = express();
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static("public"));
 
 var items = ["Buy Food", "Cook Food", "Eat Food"];
 
@@ -12,32 +13,21 @@ app.get('/', function (req, res) {
 
     const today = new Date();
 
-    const weekday = new Array(7);
-    weekday[0] = "Sunday";
-    weekday[1] = "Monday";
-    weekday[2] = "Tuesday";
-    weekday[3] = "Wednesday";
-    weekday[4] = "Thursday";
-    weekday[5] = "Friday";
-    weekday[6] = "Saturday";
-    var options = {
+   let options = {
         weekday: "long",
         day: "numeric",
         month: "long"
     };
 
-    var currentDay = weekday[today.getDay()];
-    var day = today.toLocaleDateString("en-US", options);
+   let day = today.toLocaleDateString("en-US", options);
 
     res.render('list', { kindOfDay: day , newListItems: items });
 
-    res.render('list', { kindOfDay: currentDay });
- 
 });
 
 app.post('/', function (req, res) {
 
-    var item = req.body.newItem;
+   let item = req.body.newItem;
 
     items.push(item);
 
