@@ -8,32 +8,45 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 var items = ["Buy Food", "Cook Food", "Eat Food"];
+var workItems = [];
 
 app.get('/', function (req, res) {
 
     const today = new Date();
 
-   let options = {
+    let options = {
         weekday: "long",
         day: "numeric",
         month: "long"
     };
 
-   let day = today.toLocaleDateString("en-US", options);
+    let day = today.toLocaleDateString("en-US", options);
 
-    res.render('list', { kindOfDay: day , newListItems: items });
+    res.render('list', { listTitle: day, newListItems: items });
 
 });
 
 app.post('/', function (req, res) {
 
-   let item = req.body.newItem;
+    let item = req.body.newItem;
 
-    items.push(item);
+    if (req.body.list === "Work") {
+        workItems.push(item);
+        res.redirect('/work');
 
-    res.redirect("/");
-})
+    } else {
+        items.push(item);
+        res.redirect("/");
+    }
+
+});
+
+app.get('/work', function (req, res) {
+
+    res.render('list', { listTitle:"Work List", newListItems: workItems });
+});
+
 
 app.listen(3000, function () {
     console.log('listening on port 3000');
-})
+});
