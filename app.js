@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const date = require(__dirname + '/date.js');
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -22,8 +21,7 @@ var workItems = [];
 
 app.get('/', function (req, res) {
 
-    let day = date.getDate();
-    res.render('list', { listTitle: day, newListItems: items });
+    res.render('list', { listTitle: "Today", newListItems: items });
 
 });
 
